@@ -23,6 +23,8 @@ class TwoExcelMerge():
         self.ncols_user = 0
         self.table_supplier = xlrd.sheet.Sheet
         self.table_user = xlrd.sheet.Sheet
+        self.select_language = ""
+        self.new_language_number = 0
 
     def ReadSupplier(self, supplier_excel_path, language):
         book_supplier = xlrd.open_workbook(supplier_excel_path)
@@ -39,6 +41,7 @@ class TwoExcelMerge():
             supplier_col_language = self.table_supplier.cell(nrow, self.language_col_number).value  # 取language列的值
             self.list_source_value_supplier.append(supplier_col_first)
             self.list_translate_value_supplier.append(supplier_col_language)
+        self.select_language = language
 
     def ReadUser(self, user_excel_path):
         book_user = xlrd.open_workbook(user_excel_path)
@@ -92,10 +95,6 @@ class TwoExcelMerge():
             if supplier_col_first not in self.list_first_col_after_delete_value:
                 self.list_add_index.append(nrow)
 
-        #将添加列写入最后一列
-        for i in range(len(self.list_translate_value_supplier)):
-            sheet_new_excel.write(i, self.ncols_user, self.list_translate_value_supplier[i])
-
         #写入
         if os.path.exists(new_excel_path):
             os.remove(new_excel_path)
@@ -106,6 +105,7 @@ class TwoExcelMerge():
         book_new_excel_new = copy(book_new_excel_old)
         sheet_new_excel_old = book_new_excel_old.sheet_by_index(0)
         sheet_new_excel_new = book_new_excel_new.get_sheet(0)
+        sheet_new_excel_old_ncols = sheet_new_excel_old.ncols  # 获取列总数
 
         # 在刚才中间几列删除后的基础上在增加添加的行
         list_center_add = []
@@ -121,6 +121,17 @@ class TwoExcelMerge():
             for n in range(len(list_center_add)):
                 sheet_new_excel_new.write(n, ncol, list_center_add[n])   # 把中间列写入表中
             list_center_add.clear()
+
+        # 将language列更新原有language列
+        for j in range(0, sheet_new_excel_old_ncols):  # 遍历列，寻找language列
+            sheet_new_row_second = sheet_new_excel_old.cell(self.row_second_, j).value  # 取第二行的值
+            if sheet_new_row_second == self.select_language:
+                self.new_language_number = j
+        for i in range(len(self.list_translate_value_supplier)):
+            if self.new_language_number != 0:
+                sheet_new_excel_new.write(i, self.new_language_number, self.list_translate_value_supplier[i])
+            else:
+                sheet_new_excel_new.write(i, sheet_new_excel_old_ncols, self.list_translate_value_supplier[i])
 
         book_new_excel_new.save(new_excel_path)
 
