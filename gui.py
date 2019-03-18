@@ -130,7 +130,7 @@ class Interface():
                 if (len(self.second_xls_filename) != 0) and (len(self.second_language_chosen) != 0) and (
                         self.label_sec_select_lan_after_text !='该xls文件中没有此语言！') and(len(self.second_ts_filename) != 0):
                     ge_ts = excel_to_xml_gui.ExcelToXml()
-                    ge_ts.ReadExcel(self.second_xls_filename, self.language_chosen)
+                    ge_ts.ReadExcel(self.second_xls_filename, self.second_language_chosen)
                     ge_ts.WriteXml(self.second_ts_filename)
                     tkinter.messagebox.showinfo('提示', '成功')
                 else:
