@@ -57,6 +57,8 @@ class ExcelToXml():
                     elementobj_translation[i].nodeValue = self.list_translate_value_[j]
                     # 把excel中list_translate_type更新到xml中translate的type
                     elementobj_translation[i].setAttribute("type", self.list_translate_type[j])
+                    if self.list_translate_type[j] == "":
+                        elementobj_translation[i].removeAttribute("type")
                     break
         with open(xmlfilepath, 'w', encoding='utf-8') as fail_write_xml:
             domobj.writexml(fail_write_xml, encoding='utf-8')
