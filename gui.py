@@ -230,12 +230,12 @@ class Interface():
             label_thi_select_fir_xls.place(x=10, y=40)
             # 第三页"选择新增xls文件"按钮
             butten_thi_select_sec_xls = Button(page3, text="选择新增xls文件", command=third_select_sec_xls)
-            butten_thi_select_sec_xls.place(x=280, y=10, height=30, width=180)
+            butten_thi_select_sec_xls.place(x=265, y=10, height=30, width=180)
             label_thi_select_sec_xls = Label(page3, text="", wraplength=180, justify='left')
-            label_thi_select_sec_xls.place(x=280, y=40)
-            # 第二页"选择翻译语言："按钮
-            label_thi_lan = Label(page3, text="选择新增语言：")
-            label_thi_lan.place(x=465, y=10, height=30, width=100)
+            label_thi_select_sec_xls.place(x=265, y=40)
+            # 第三页"选择翻译语言："按钮
+            label_thi_lan = Label(page3, text="选择新增或更新语言：")
+            label_thi_lan.place(x=450, y=10, height=30, width=120)
             third_language = StringVar()
             third_languageChosen = ttk.Combobox(page3, width=5, textvariable=third_language, state='readonly')
             third_languageChosen['values'] = ('zh_CH', 'en_US', 'en_EN', 'jan_JAN', 'rus_RUS')  # 设置下拉列表的值
@@ -257,7 +257,7 @@ class Interface():
             butten_thi_run.place(x=280, y=200, height=30, width=100)
 
         third(self)
-        my_notebook.add(page3, text='在一个xls文件中增加另一个xls文件中的一种语言')
+        my_notebook.add(page3, text='在一个xls文件中增加或更新另一个xls文件中的一种语言')
 
         root.mainloop()
 
